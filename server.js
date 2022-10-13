@@ -9,7 +9,7 @@ app.use(
   })
 );
 app.get("/", (req, res) => {
-  res.json({ message: "ok" });
+  res.sendFile("/home/adarsh/dbms_project/index.html")
 });
 app.use("/doctor", DoctorPresRouter);
 /* Error handler middleware */
