@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 with st.form("my_form",clear_on_submit=True):
     st.title("Patient Details")
     patient_name=st.text_input("Enter Patient Name")
@@ -10,4 +11,7 @@ with st.form("my_form",clear_on_submit=True):
     submitted = st.form_submit_button("Submit")
     if submitted:   
         st.write("## Thank you for your response :-) ")
+button=st.button("Click me for Medicine list")    
+if button:
+    os.system("streamlit run main.py")
     
