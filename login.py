@@ -17,3 +17,5 @@ with st.form("my_form",clear_on_submit=True):
 button=st.button("Click me for Medicine list")    
 if button:
     os.system("streamlit run main.py")
+
+st.write("# Hello, world!")
