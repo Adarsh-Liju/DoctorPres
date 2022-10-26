@@ -30,4 +30,7 @@ if generate_pres:
     st.write("## Patient Name: ",result2[0]['Pat_Name'])
     st.write("## Patient Age: ",result2[0]['Pat_Age'])
     st.write("## Medicines: ",result2[0]['Medicine_1'],",",result2[0]['Medicine_2'],",",result2[0]['Medicine_3'])
-    
+    print=st.button("Print Prescription")
+    if print:
+        os.system("python3 print_pres.py")
+        st.write("Prescription Printed")
