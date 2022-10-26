@@ -25,6 +25,8 @@ if generate_pres:
     query2 = 'SELECT * FROM PatientPres WHERE Pat_ID=%s' % (search)
     cursor.execute(query2)
     result2 = cursor.fetchall()
+    st.write("# Patient Details")
+    st.write("Patient ID: ", result2[0]['Pat_ID'])
     st.write("## Patient Name: ",result2[0]['Pat_Name'])
     st.write("## Patient Age: ",result2[0]['Pat_Age'])
     st.write("## Medicines: ",result2[0]['Medicine_1'],",",result2[0]['Medicine_2'],",",result2[0]['Medicine_3'])
