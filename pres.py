@@ -27,7 +27,5 @@ if generate_pres:
     result2 = cursor.fetchall()
     st.write("## Patient Name: ",result2[0]['Pat_Name'])
     st.write("## Patient Age: ",result2[0]['Pat_Age'])
-    st.write("## Medicine 1: ",result2[0]['Medicine_1'])
-    st.write("## Medicine 2: ",result2[0]['Medicine_2'])
-    st.write("## Medicine 3: ",result2[0]['Medicine_3'])
-    st.write("## Thank you for using Doctor Prescription System")
+    st.write("## Medicines: ",result2[0]['Medicine_1'],",",result2[0]['Medicine_2'],",",result2[0]['Medicine_3'])
+    
