@@ -1,9 +1,9 @@
 import os
 import random
-
+from delete import delete_pres
 import pymysql
 import streamlit as st
-
+crud=["Create","Read","Update","Delete"]
 # config for the database
 connection = pymysql.connect(host='localhost',
                              user='ala',
@@ -18,27 +18,10 @@ result = cursor.fetchall()
 result = [i['Medicine Name'] for i in result]
 # GUI Login Screen
 st.header("Doctor Prescription System")
-st.write("# Dashboard")
-st.write("## Create Prescription")
-st.sidebar.header("Doctor Prescription System")
-st.sidebar.button("Create Prescription")
-st.sidebar.button("Medicines")
-update=st.sidebar.button("Update Prescription")
-if update:
-    st.write("## Update Prescription")
-    pat_id = st.text_input("Enter Patient ID")
-    st.write("## Enter Medicines")
-    med1 = st.selectbox("Medicine 1", result)
-    med2 = st.selectbox("Medicine 2", result)
-    med3 = st.selectbox("Medicine 3", result)
-    update_pres = st.button("Confirm")
-    if update_pres:
-        query2 = "UPDATE PatientPres SET Medicine_1='%s',Medicine_2='%s',Medicine_3='%s' WHERE Pat_ID='%s'" % (
-            med1, med2, med3, pat_id)
-        cursor.execute(query2)
-        st.success("Prescription Updated")
-        st.balloons()
-        os.system("streamlit run pres.py")
+option=st.sidebar.selectbox("Operations", crud)
+print(option)
+if option=="Update":
+    pass
 with st.form("my_form"):
     patient_id = random.randint(1000, 9999)
     patient_name = st.text_input("Patient Name")
@@ -60,3 +43,6 @@ with st.form("my_form"):
         cursor.execute(query2)
         st.write("Added to database")
         os.system("streamlit run pres.py")
+
+if option=="Delete":
+    delete_pres()
