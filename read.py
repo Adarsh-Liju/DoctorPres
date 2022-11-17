@@ -1,7 +1,7 @@
-import streamlit as st
 import pymysql
+import streamlit as st
 import os
-
+import random
 # config for the database
 connection = pymysql.connect(host='localhost',
                              user='ala',
@@ -10,15 +10,6 @@ connection = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 connection.autocommit(True)
 cursor = connection.cursor()
-def query_pres():
-    st.write("# SQL Query")
-    st.write("## Enter SQL Query")
-    query = st.text_input("Enter SQL Query")
-
-    st.write("## Results")
-    # Execute the query
-    if st.button("Execute"):
-        cursor.execute(query)
-        result = cursor.fetchall()
-        st.dataframe(result)
-
+query = "SELECT `Medicine Name` FROM MedicineDB"
+cursor.execute(query)
+result = cursor.fetchall()
