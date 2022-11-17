@@ -1,7 +1,6 @@
-import streamlit as st
-import time
 import pymysql
-import os
+import streamlit as st
+
 # DBMS part
 
 # config for the database
@@ -18,7 +17,7 @@ with st.form("my_form", clear_on_submit=True):
     patient_name = st.text_input("Enter Patient Name")
     patient_age = st.text_input("Enter Patient Age")
     symptoms = st.text_input("Please enter your symptoms")
-    address= st.text_input("Please enter your address")
+    address = st.text_input("Please enter your address")
     # TODO 
     # Will add upload image later
     # camera=st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
@@ -26,6 +25,6 @@ with st.form("my_form", clear_on_submit=True):
     if submitted:
         st.write("### Thank you for your response :-) ")
         st.write("This is to test my db is working")
-        query = "INSERT INTO `PatientDB`(`Name`, `Age`, `Symptoms`,`Address`) VALUES ('%s','%s','%s','%s')" % (patient_name, patient_age, symptoms,address)
+        query = "INSERT INTO `PatientDB`(`Name`, `Age`, `Symptoms`,`Address`) VALUES ('%s','%s','%s','%s')" % (
+        patient_name, patient_age, symptoms, address)
         cursor.execute(query)
-

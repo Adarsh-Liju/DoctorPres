@@ -1,8 +1,8 @@
 # Importing all Libraries
-import streamlit as st
-import time
-import pymysql
 import os
+
+import pymysql
+import streamlit as st
 
 # config for the database
 connection = pymysql.connect(host='localhost',
@@ -24,7 +24,7 @@ if submitted:
         user_name, user_pwd)
     cursor.execute(query)
     if cursor.rowcount == 0:
-        st.error("Invalid Credentials",icon="❕")
+        st.error("Invalid Credentials", icon="❕")
     else:
         st.success("Login Successful", icon="👍")
         st.balloons()

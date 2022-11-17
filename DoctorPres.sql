@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 25, 2022 at 05:53 PM
+-- Generation Time: Nov 09, 2022 at 09:28 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -32,8 +32,27 @@ CREATE TABLE `Appointment` (
   `Doc_ID` int(11) NOT NULL,
   `Pat_ID` int(11) NOT NULL,
   `Name` text NOT NULL,
+  `Age` int(11) NOT NULL,
+  `Adult` char(1) NOT NULL,
   `Date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Appointment`
+--
+
+INSERT INTO `Appointment` (`Token_No`, `Doc_ID`, `Pat_ID`, `Name`, `Age`, `Adult`, `Date`) VALUES
+(4656, 456456, 4564, 'fgbnfgn', 19, 'A', '2022-11-06 22:06:30');
+
+--
+-- Triggers `Appointment`
+--
+DELIMITER $$
+CREATE TRIGGER `age_verify` BEFORE INSERT ON `Appointment` FOR EACH ROW IF new.`Age` < 18 then set new.`Adult` = 'C';
+ELSEIF new.`Age` > 18 then set new.`Adult` = 'A';
+END IF
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -57,9 +76,15 @@ CREATE TABLE `DoctorDB` (
 
 CREATE TABLE `LoginCreds` (
   `user_name` text NOT NULL,
-  `user_pwd` text NOT NULL,
-  `access` text NOT NULL
+  `user_pwd` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `LoginCreds`
+--
+
+INSERT INTO `LoginCreds` (`user_name`, `user_pwd`) VALUES
+('ala', 'ala');
 
 -- --------------------------------------------------------
 
@@ -881,6 +906,37 @@ INSERT INTO `PatientDB` (`Name`, `Age`, `Address`, `Symptoms`, `Prescription`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `PatientPres`
+--
+
+CREATE TABLE `PatientPres` (
+  `Pat_ID` int(11) NOT NULL,
+  `Pat_Name` text NOT NULL,
+  `Pat_Age` int(11) NOT NULL,
+  `Medicine_1` longtext NOT NULL,
+  `Medicine_2` longtext NOT NULL,
+  `Medicine_3` longtext NOT NULL,
+  `Date` date NOT NULL DEFAULT current_timestamp(),
+  `Time` time NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `PatientPres`
+--
+
+INSERT INTO `PatientPres` (`Pat_ID`, `Pat_Name`, `Pat_Age`, `Medicine_1`, `Medicine_2`, `Medicine_3`, `Date`, `Time`) VALUES
+(3306, 'adarsh', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(6461, 'adarsh', 190, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(7014, 'adarsh', 190, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(4160, 'adarsh Liju abraham', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(9182, 'adarsh Liju abraham', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(9425, 'adarsh Liju abraham', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:27:14'),
+(5623, 'yggk', 134, 'Augmentin', 'Augmentin', 'Augmentin', '2022-11-09', '10:15:28'),
+(2580, 'Shenoy', 20, 'Dolo', 'Cremaffin', 'Aciloc', '2022-11-09', '10:21:31');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `UserDate`
 --
 
@@ -910,7 +966,7 @@ ALTER TABLE `Appointment`
 -- AUTO_INCREMENT for table `Appointment`
 --
 ALTER TABLE `Appointment`
-  MODIFY `Token_No` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Token_No` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313123124;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
