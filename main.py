@@ -27,8 +27,11 @@ st.header("Doctor Prescription System")
 st.sidebar.image("pharmacy.svg")
 st.sidebar.header("Doctor Prescription System")
 st.sidebar.subheader("Operations")
+but1=st.sidebar.button("Info")
+but2=st.sidebar.button("About")
 option = st.sidebar.selectbox("Operations", selection)
 print(option)
+
 if option == "Update":
     update_pres()
 if option == "Create":
@@ -39,3 +42,5 @@ if option == "Read":
     view_pres()
 if option == "Query":
     query_pres()
+if but1:
+    os.system("streamlit run info.py")

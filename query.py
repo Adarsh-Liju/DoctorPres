@@ -18,7 +18,10 @@ def query_pres():
     st.write("## Results")
     # Execute the query
     if st.button("Execute"):
-        cursor.execute(query)
-        result = cursor.fetchall()
-        st.dataframe(result)
+        if query == "":
+            st.error("Please enter a query")
+        else:
+            cursor.execute(query)
+            result = cursor.fetchall()
+            st.dataframe(result)
 

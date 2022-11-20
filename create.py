@@ -20,6 +20,7 @@ def create_pres():
       patient_id = random.randint(1000, 9999)
       patient_name = st.text_input("Patient Name")
       patient_age = st.text_input("Patient Age")
+      symptoms = st.text_input("Symptoms")
       medicine_1 = st.selectbox("Medicine 1", result[0:747])
       medicine_1 = medicine_1.split(" ")[0]
       st.write("Medicine 1", medicine_1)
@@ -32,7 +33,7 @@ def create_pres():
       button = st.form_submit_button("Submit")
       if button:
           st.write("Thank you for submitting the form")
-          query2 = 'INSERT INTO `PatientPres`(`Pat_ID`, `Pat_Name`, `Pat_Age`, `Medicine_1`,`Medicine_2`,`Medicine_3`) VALUES (%s,"%s",%s,"%s","%s","%s");' % (
-          patient_id, patient_name, patient_age, medicine_1, medicine_2, medicine_3)
-          cursor.execute(query2)
-          st.write("Added to database")
+          query2 = 'INSERT INTO `PatientPres` (`Pat_ID`, `Pat_Name`, `Pat_Age`, `Symptoms`, `Medicine_1`, `Medicine_2`, `Medicine_3`) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+          cursor.execute(query2, (patient_id, patient_name, patient_age, symptoms, medicine_1, medicine_2, medicine_3))
+          st.write("### Your Patient ID is ", patient_id)
+          st.success("Added to database")
