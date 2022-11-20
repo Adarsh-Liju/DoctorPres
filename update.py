@@ -10,25 +10,29 @@ connection = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 connection.autocommit(True)
 cursor = connection.cursor()
-cursor = connection.cursor()
-query = "SELECT `Medicine Name` FROM MedicineDB"
-cursor.execute(query)
-result = cursor.fetchall()
-result = [i['Medicine Name'] for i in result]
-pat_query="SELECT `Pat_ID`,`Pat_Name` FROM PatientPres"
-cursor.execute(pat_query)
-pat_result=cursor.fetchall()
-# Combine the two lists
-pat_result=[str(i['Pat_ID'])+" "+i['Pat_Name'] for i in pat_result]
-st.write("## Update Prescription")
-pat_id = st.selectbox("Patient ID",pat_result)
-st.write("## Enter Medicines")
-med1 = st.selectbox("Medicine 1", result)
-med2 = st.selectbox("Medicine 2", result)
-med3 = st.selectbox("Medicine 3", result)
-update_pres = st.button("Confirm")
-if update_pres:
-    query2 = "UPDATE PatientPres SET Medicine_1='%s',Medicine_2='%s',Medicine_3='%s' WHERE Pat_ID='%s'" % (
-        med1, med2, med3, pat_id)
-    cursor.execute(query2)
-    st.success("Prescription Updated")
+def update_pres():
+    with st.expander("View Patient's Data"):
+        view_query = "SELECT Pat_ID,Pat_Name,Medicine_1,Medicine_2,Medicine_3 FROM PatientPres"
+        cursor.execute(view_query)
+        view_result = cursor.fetchall()
+        st.dataframe(view_result)
+    query = "SELECT `Medicine Name` FROM MedicineDB"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    result = [i['Medicine Name'] for i in result]
+    pat_query="SELECT `Pat_ID` FROM PatientPres"
+    cursor.execute(pat_query)
+    pat_result=cursor.fetchall()
+    pat_result=[i['Pat_ID'] for i in pat_result]
+    # st.write("## Update Prescription")
+    pat_id = st.selectbox("Patient ID",pat_result)
+    # st.write("## Enter Medicines")
+    med1 = st.selectbox("Medicine 1", result)
+    med2 = st.selectbox("Medicine 2", result)
+    med3 = st.selectbox("Medicine 3", result)
+    update_pres = st.button("Confirm")
+    if update_pres:
+        query2 = "UPDATE PatientPres SET Medicine_1='%s',Medicine_2='%s',Medicine_3='%s' WHERE Pat_ID='%s'" % (
+            med1, med2, med3, pat_id)
+        cursor.execute(query2)
+        st.success("Prescription Updated")

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 09, 2022 at 09:28 AM
+-- Generation Time: Nov 20, 2022 at 04:33 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `Appointment` (
-  `Token_No` int(11) NOT NULL,
   `Doc_ID` int(11) NOT NULL,
   `Pat_ID` int(11) NOT NULL,
   `Name` text NOT NULL,
@@ -36,13 +35,6 @@ CREATE TABLE `Appointment` (
   `Adult` char(1) NOT NULL,
   `Date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `Appointment`
---
-
-INSERT INTO `Appointment` (`Token_No`, `Doc_ID`, `Pat_ID`, `Name`, `Age`, `Adult`, `Date`) VALUES
-(4656, 456456, 4564, 'fgbnfgn', 19, 'A', '2022-11-06 22:06:30');
 
 --
 -- Triggers `Appointment`
@@ -71,20 +63,42 @@ CREATE TABLE `DoctorDB` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ExpiredDB`
+--
+
+CREATE TABLE `ExpiredDB` (
+  `Pat_ID` int(11) NOT NULL,
+  `Name` text DEFAULT NULL,
+  `Age` int(11) DEFAULT NULL,
+  `Address` text DEFAULT NULL,
+  `Symptoms` text DEFAULT NULL,
+  `Medicines` text DEFAULT NULL,
+  `Prescription` text DEFAULT NULL,
+  `Date_Joined` date NOT NULL,
+  `Timestamp` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `LoginCreds`
 --
 
 CREATE TABLE `LoginCreds` (
-  `user_name` text NOT NULL,
-  `user_pwd` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `user_name` varchar(6) DEFAULT NULL,
+  `user_pwd` varchar(6) DEFAULT NULL,
+  `access` int(1) DEFAULT NULL,
+  `user_no` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `LoginCreds`
 --
 
-INSERT INTO `LoginCreds` (`user_name`, `user_pwd`) VALUES
-('ala', 'ala');
+INSERT INTO `LoginCreds` (`user_name`, `user_pwd`, `access`, `user_no`) VALUES
+('ala', 'ala', 0, 1),
+('admin', 'admin', 1, 2),
+('adarsh', 'adarsh', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -885,12 +899,14 @@ INSERT INTO `MedicineDB` (`ID`, `Medicine Name`, `Prescription`, `Type of Sell`,
 --
 
 CREATE TABLE `PatientDB` (
+  `Pat_ID` int(11) NOT NULL,
   `Name` text DEFAULT NULL,
   `Age` int(11) DEFAULT NULL,
   `Address` text DEFAULT NULL,
   `Symptoms` text DEFAULT NULL,
+  `Medicines` text DEFAULT NULL,
   `Prescription` text DEFAULT NULL,
-  `Picture` longblob DEFAULT NULL,
+  `Date_Joined` date NOT NULL,
   `Timestamp` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -898,10 +914,10 @@ CREATE TABLE `PatientDB` (
 -- Dumping data for table `PatientDB`
 --
 
-INSERT INTO `PatientDB` (`Name`, `Age`, `Address`, `Symptoms`, `Prescription`, `Picture`, `Timestamp`) VALUES
-('dssds', 18, 'sgds', 'hkjgkgjk', 'gkghkghgk', 0xffd8ffe000104a46494600010100000100010000ffdb008400090607080706090807080a0a090b0d160f0d0c0c0d1b14151016201d2222201d1f1f2428342c242631271f1f2d3d2d3135373a3a3a232b3f443f384334393a37010a0a0a0d0c0d1a0f0f1a37251f253737373737373737373737373737373737373737373737373737373737373737373737373737373737373737373737373737ffc000110800ba009c03012200021101031101ffc4001c0001000105010100000000000000000000000702040506080301ffc400461000010303010505040606070901000000010002030405110607122131411351617181223291a108141533b1c11642526272d12324348292e1f043535463a2b2b3c2d217ffc4001b01010002030101000000000000000000000004050103060207ffc4002911000202020202010206030000000000000001020304112131051213224133617181a1f1141551ffda000c03010002110311003f009c511100444401111005a6ed0b6856bd174e239bfacdca566f4346c382472de71fd56fe3838e4567b52dea9f4fd8ab6eb57c62a68cbf741c171e400f3380b906f976acbedcea2e77294c95350fde79e83b801d00e480d8f506d37555f257196e72d2424e441444c4d6fa8f68fa95a9cd555134bdacd3cb249fb4f7927e2578a2c833b68d5da8ed3235d6fbcd7478e019da9737fc2723e4a56d17b6b73a76516b1859164e1b5d030803f8dbf98f87550c5a00370841191bcb64d4b4d6f9180c45ad971c40580756d3cf0d4c11cf4f2b258a468731ec765ae079107a85e8b9eb623af64b65c63d377598ba8aa5e1b48f73bee643fabfc2ef91f35d080a03ea22200888802222008888022220088880893e919707c1a5edf42c7168aaabde7e0f36b1a781f5703e8b9e54e3f4947fb363674cca7f05a558b66b5f74b77d64cae8e573439ac6445dbbddbc80d0d164f505b6aed5717d1dc29cc150cf7bd92d0f1d1c01ef5e767b5d4de2be3a2a3617cafee04e077e0202ce17be378747ef74496491f26f48e25de2a66b4ec9691d4edfaf52571791f7b92de3e4b47da0698a8d33551d34ce1514efe34d54061c47563fc47faee006a0c7b98f0e61c3810411cc11c975f680be7e91e90b65d1e732cb16ecbfc6d25aef98cae3f2ba47e8f53993444d1139ecab24c7a869404a088880222200888802222008888022220212fa46b59dbe9e74df75bf207f965b954ed0b5adcf4c6b3a7b259aa1b43414b4ec218226b84b238672fcf12390e18f35ebf49367f51b1bff00e6cadf90569a96c76dda25059f5250dc194f5af8990d64446f13bbcf97270e3cf98c2f16590aa2e537a47a8c5c9e91e3b6aa8a4d41a474bea58f72296a72c2dea039b923c775cd23d555f478651b2ef75dda86493be066e0230e0038ef70f50b6bb6d96869e928a99f0473b68a2eca074ac0e2d6e7279f5279e3f2596a5b7d3c1708ae1153c0d9a21889ec85a1cccf03ed0e383dca93fdfd1ecd28bd7fd243c4925d910de369b7caad615527dab51434314ef8e08e068dd6341c02e041dee5c7cf8616d7b41ab83576c728f534d088eb192465dba3037c3cc6e1e59c91e8b0fa8f64d515f7d9aaed55f4b05254cc647b270f061de3921b8077873e78e9e6ae76b13d1e9bd0d68d1f6c3249107091f316901f8249c9e592e24e3a2b5c7cca321275cb66894251ed10c755d0df4707674b5c5b9f76b7ff0040b9e7aae81fa36b87e8fddd99e22b1a71fdc1fc94a3c1302222c00888802222008888022220088880887e91b4fbfa7ecf3643776b8c7bc4f2de61ff00e57869ba7a7a4a1860a40dec98006eef5f1f3eaaff00e9198fd0aa1cf3fb523ffc52ad57445154334650dca8a4776a4c9da34f10e687b872f00156794c59e453a83e8958b64612e490a9f8b9a164f1bacc2d3e8af72cac077a9c3bae4397b4d70aa95b892b0323ee8806e7d79ae3d5328b69960d393d997b8dc994f9860dd92a31eef46f8bbf928ff6a15af9349f6354e124ae9d9b84371ed0cf1c79642da28e99d3f081b8693ef1ff005c563f5ee927dc34bd4be289cfaba7fe9e23c78eefbc3d467d70aebc678db1591b5ad24f7f9ff447bee8462e1db20611bcb5cf0c716b4f1701c02983e8e1746c579ba5adeee3514ed9a304f0cb0e081e38703e85687a2ee34d0d54b455cd69a7a8fdae5957b1dc60d1baee8ee56c3bf140e0e96361ce5a7839a3d095d515a757045e3475315652c5554d20921998248de3939a46415ecb0022220088880222200888802a5ce0c05ce20340c927a2fa5421b6ada3f19f4cd8e6c73657d434fc6369fc7e1de80d7b6b9ab0eb6d434b65b031d534d4d2164463e3f5899dc091e03903e6792976d9a63ec2d336fb73087ba9610d91cde4e71e2ef992b47d8068f63698ea9ae6073e42e8a89a47ba01c39fe79040f553496870c1008404655761a39e574843e279393d99c7c95c5069da7de06363e47679c872b759ad1048fdec63255d53d2c74e30c605a7e0ab7edeab66cf927ad6cc65b6ced8835d2b470e4d598ecd98c6e8c63182155c916d359ca3b54d2ffa2fabaaa085a45154e6a29bc1a4f16ff74e4796169f93927993cf2ba3b6ff00646dc74932e4c6e6a2db26f647fbb7e1ae1f1dd3e8b9c16413bec0f5b365a7fd16b8cad12c797d0b9c7df6f3733cc731e19ee5352e25a2aa9e8aa62a9a495d14f0bc3e391bcdae1c41f92ea4d996bba7d636a6890b63ba53b40a9841e7fbedfdd3f227080dd9111004444011110044440479b63d6ced2d616d35be40dba5765913bac4cfd67f9f41e273d1731905ceef71f995baed46e126a2da1dc8b24de869dff5788f4631838ffd5bc7d578eceb4a1d5daa23a58998a0a7c4b54f279b01e03cdc7e5940749e956d2d0d82df430618da7a763037c82cd0208c85e14b470d2b1ad8db8c0c0570b00f174877c0eabdba2a43007ef7555203c649c47c771de8ad65ba319c371d9f15905e724314a0891808406bd7da7fb76c973b78dd0faca492166f7101ce69dd3f1c15c9b59455345592d1d5c2f86a617964913f810e1cd761d45b373dba6383dca27db8e936565b9baa28a1ddaaa7dd8ebb747bece4d7f98e033dc7c1641069041c1e7dcafec579adb0dd20b95b663154c0ecb4f423a823a823810be42f8aa5823ab183c9b381cbf8bbc2b6a9a7929a774520c39bddd42c83b0747ea1a4d5160a5bb51706cadc491e726378f79a7c8fe4566973aec03541b76a192c550ffead7105d10e8d99a3f368c7980ba242c03ea22200888802c46acbc4760d3970ba4983f5681ce634feb3f1ec8f538597508fd20b527692d0e97a493df709eaf1f0637f13f04043f24cf8e8249a576f54d6bcb9efebbb9c93ea7f35d21b1bd34dd3fa36096566ed65c40a89c9182011ec37d07cc9500e9cb50d41adedf69c6607ced8dc307eed9c5df207e2bae5a035a1ad1800600407d4ce115327061f2580540e515117ddb7c95680222200ad2e16fa7b8d0d4d1d4b0186a6274520c7304615da14072018a3b54b5b6fabc76f4f33e177f134969fc0ab49836aed1bede32523b749ea58797f259fdb1d18a3da2dd80003657b65007ef3467e795af5a86692e2d3ee9841f9f05e816b6cad9add71a6aea6389a9a56cace3d41caeccb3d7c575b551dc69ce62aa859333c9c01fcd7150e6ba7b61574fb43405342e76f3e8a57c07c067787c9c160121a2220088be140585feed4f63b3d65d2b0e21a588c8e19c67b80f12703d5722d5dcaaafba964b8d4e5f515753da3bae32780f20303c82e88dba894ece2b8c79dc1343daff0ef8fcf7573c51535d2d7d9dc4dbe76c038f68f84eee3cf1c1636976c25b37dd82d019f6835b53237fb1d34a41ee7b9c1bf8172e8a0a18d82c4d37cd4154c68ecea2286461f32fc8f8a99d6580a897eedcab544df765601f63188da3c154a98fdc6f92a90044440111101cc9b7ac7ff00a25463fe1a2cfc169d487b0b2d54a79cef6c6d1e59256d7b647babf693728e31c616c7192e38030c07f35abd442d96960a582a20c4432ecb8fb4e3cf1c17a062429d7e8d554f7d25fa8cfb91c90cadf370703ff6050bcf6aac821333e0262038c8c39014cff46aa59594d7eac701d948f86269fde68793f27b560136a204407cc84cad6b53de6aa92a22a2a12192b99da3e4201dd1920633c3a158635f792cc1b949c7f7183f00aab2bcbd18f3f4972c935e24ec8fb2331acaba134c2d98648fa8c17b5c321ad073f8ac288da63dd737208c107aab78695fdbba695ee924773738e72af30b96f219cf2adf65d2e8b2a2955c744657dfb536797b8ef9a71dbb412bb13d29198c13faa47407a771532689d676ad616d1536f9032a1807d6295c7db89c7f11dc7aad6eef6f82e5432d2d4b03e295bbae0541323aeda1f52b9d4353253d553bb31cade5233c47220f715d2f87cfff0022bf8e6fea5fca2bf2e8f8e5ecba675f2a26198cad13673b4bb7ead8db47561b497768f6a027d997c587af9735bef30ae4887c8f830792a907045801111005a94da82a9d73a9862c3238642c1c324e38127d567ee15869b1b9cd68b1bb7eed5ef3d6671f9aa9f316d95d29c1eb9256242339e9910ed7a2863d5f2cb139e64aa89b34e5c720b892063b86005a3614a5b4ed395770ac8abe8a3ed5cc8f7248f3c700e411f12a3d86cb759e6ece3b7d4b9f9c7dd903e254ac1be33c68b72e75cecf17d6e3634917764b9c945049187ba4327064238e4ae8bd93db62b0e9e65ba4737ebd23dd5138030379d8e1e8303d1469a03410a1a98ee777dc7cf19cc3034e5ac3de7bcfc949d6e263bcd23f200dfdd27cc2877f958ac98575f2b7cfee6d8e2bf8dca5d9bb8e4beaf8392faae486697aa86edfe23fb54e31e8e77f92b618ee573ad08fb5e840e622713e591fe6ad9bc9709e5e3acb968bac5fc2430888ab0900f10b44da869cfb4ed7f6853309aaa4697600e2e6f50b7b54c8d0f69690082307c548c5c8963dcac8fd8d76d6a71716730452c90cac9217ba392370731ec382d239107a15d55b27d5136abd251d5d61cd6d3c869ea1d8c6fb9a01def50e1eb951849b256de6f5522df76829039fda082584b8861e65a73c78f4e0a60d0ba56934758db6ba491d312f32cd33f8191e7009c74180001e0be834dd0bab53874ca39c5c1e99b0a222d879088a97bd91b1cf91cd6b1a325ce380077a03137b18c38e001c7256916da986aeaea6a29a46c90c921731ede4e19e042d2b6b5b4e177965b369c948a2692c9ea9bfedff00759fbbe3d7cb9ec3a299d9dba067ecc6063e0a9bce7e0226e12fad99daba6ed339190ad62a1f6b3bab2e46530b9653696916679c116e055c8dc8c8e0e07811cc772a9179dbec1b0d9af22a80a7a82195239773fcbc7c166147f52e6b1bbd9c1072082ae283575445098e5a792a4b1d8123474f1f15d360796f68fa5ab95f72b6fc4d3dc0b2adae6dcefb515191b8cfe8a33e0dcfe793eaae011d158d6e98bb5b6a2475243f59a72e258633ed01dc473cf965580ba3e093b2a963e29073648374fcd5267e2e43b5ce6bb26d1387aa51667932b191dd237019215cc75b13cf023e2ab9c24bb46f2e90854b646b86410be92071c8c2f20c55e1f352c9156523cb2a207ef31c3f03de0abfb3ed6b4fcf39a3bcbcdaeada7044a37a27788781c079e163af5337b170ca8535737b5bbb1b0b4ba47300dd68c93c4e382ea3c0d92e60fa2bf3a0b891d654576b757c425a1afa5a888f27c3335c0fc0af692ae9a26974b510b1a399748005c79169abfc9874563b99ee736924fc70bd26d31a94bb3358eece3de696477e4ba52b4e91d43b50d27648dd9b9c75b38e50d1112927bb2380f52a0fd7bb4fbbeaddea58c7d46d99fecd1bc93263f6ddd7cb92d3eaadf5d43fdb68ea29f8e3fa685cdf4e215a1407bd0c7dad753c7fb72b47cd4fda5dbbb4c382822c98fb56989e8ecfc01535e9bae6b610dcf4543e736e3144fc2fb9b722b235ccc7456b57746b0702b99516cb1d17f355322ce5cb17537a647901c16320fb42fb5bf53b6c65f2737389c3583bdc56fb60d116fb76e4f5dfd76ac71de93dc69f06ff00356b8be2ecb797c2235b910aff005357b7dbeed7f70fabc461a6278d44a086fa0fd6fc148367b352daa8594b1377f1c5cf78e2f77525644340000e002a97458d81563ae172575b7cac290bc6ae8e9ab23eceae9e299bdd2303bf15708a6349f0cd3d746b35ba1ecd53931c52d33c8e70498c7a1c8582acd9fd745975b6e6d900e51cecdd3fe21fc94868a34f0e89f7136c6eb23d321dae65eac44fda5452b22cfdf33da61fef0e5eb85e635031cccef8e5dea647b439a5ae00b48e20f550ded4a8e9692b233494d0c05eef68c5186ef79e1546578aa63ca25d59527c330f5970a8ba54b68add13ea2a65386471f127f90f1e8a61d1da7e3d3d668690b58ea9f7a79437df79e278f70ce02b0d9ed15241668a6829618e5900df919180e77991cd6d8acf071614c37123df6b9bd30888a711cf8402304642c45cb4b586e9bdf5fb3504e5dcdcf81bbc7d719f9acc220237bbec734d54b9d516b64f6eaa6e5cc313f319763802d7678796146723ebec15cfa0b9c2f8278ce375c383bc5a7a8f10ba4cf22b11a96868ebad6e6d6d2c150d1c84d18781f151b2288db1fa8db558e0f82136df72df795f58adf72d5559d85034b601f7b52e69dc8c7e67c07c963b4fd2534fac0534d4f0c94e5c7fa27b0167c3929fe8e0869e9628a9e26451b5a30c8da1a07a055f46056e5b649b32669705ad86cd4763a16d250c65ad1c5cf77bd23bf69c7a95915f515c2492d22137b7b6111164c1ffd9, '2022-10-24'),
-('Adarsh', 18, NULL, 'cold', NULL, NULL, '2022-10-25'),
-('Adarsh Liju Abraham', 19, '103 A , Purva Heights', 'cold , fever and headache', NULL, NULL, '2022-10-25');
+INSERT INTO `PatientDB` (`Pat_ID`, `Name`, `Age`, `Address`, `Symptoms`, `Medicines`, `Prescription`, `Date_Joined`, `Timestamp`) VALUES
+(1, 'dssds', 18, 'sgds', 'hkjgkgjk', '', 'gkghkghgk', '0000-00-00', '2022-10-24'),
+(2, 'Adarsh', 18, NULL, 'cold', '', NULL, '0000-00-00', '2022-10-25'),
+(3, 'Adarsh Liju Abraham', 19, '103 A , Purva Heights', 'cold , fever and headache', '', NULL, '0000-00-00', '2022-10-25');
 
 -- --------------------------------------------------------
 
@@ -913,6 +929,7 @@ CREATE TABLE `PatientPres` (
   `Pat_ID` int(11) NOT NULL,
   `Pat_Name` text NOT NULL,
   `Pat_Age` int(11) NOT NULL,
+  `Symptoms` text NOT NULL,
   `Medicine_1` longtext NOT NULL,
   `Medicine_2` longtext NOT NULL,
   `Medicine_3` longtext NOT NULL,
@@ -924,27 +941,28 @@ CREATE TABLE `PatientPres` (
 -- Dumping data for table `PatientPres`
 --
 
-INSERT INTO `PatientPres` (`Pat_ID`, `Pat_Name`, `Pat_Age`, `Medicine_1`, `Medicine_2`, `Medicine_3`, `Date`, `Time`) VALUES
-(3306, 'adarsh', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
-(6461, 'adarsh', 190, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
-(7014, 'adarsh', 190, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
-(4160, 'adarsh Liju abraham', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
-(9182, 'adarsh Liju abraham', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
-(9425, 'adarsh Liju abraham', 19, 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:27:14'),
-(5623, 'yggk', 134, 'Augmentin', 'Augmentin', 'Augmentin', '2022-11-09', '10:15:28'),
-(2580, 'Shenoy', 20, 'Dolo', 'Cremaffin', 'Aciloc', '2022-11-09', '10:21:31');
+INSERT INTO `PatientPres` (`Pat_ID`, `Pat_Name`, `Pat_Age`, `Symptoms`, `Medicine_1`, `Medicine_2`, `Medicine_3`, `Date`, `Time`) VALUES
+(1166, 'oafnoadufn', 12, 'iubiubuibui', 'Augmentin', 'Augmentin', 'Augmentin', '2022-11-18', '09:23:51'),
+(1209, 'oafnoadufn', 12, 'iubiubuibui', 'Augmentin', 'Augmentin', 'Augmentin', '2022-11-18', '09:25:00'),
+(2580, 'Shenoy', 20, '', 'Dolo', 'Cremaffin', 'Aciloc', '2022-11-09', '10:21:31'),
+(3238, 'Navin Shrinivas', 120, '', 'Dolo', 'Avil', 'Emty', '2022-11-17', '13:59:35'),
+(4160, 'adarsh Liju abraham', 19, '', 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(5623, 'yggk', 134, '', 'Augmentin', 'Augmentin', 'Augmentin', '2022-11-09', '10:15:28'),
+(7014, 'adarsh', 190, '', 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(9182, 'adarsh Liju abraham', 19, '', 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:26:54'),
+(9425, 'adarsh Liju abraham', 19, '', 'Augmentin', 'Augmentin', 'Augmentin', '2022-10-26', '01:27:14');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `UserDate`
+-- Table structure for table `UserData`
 --
 
-CREATE TABLE `UserDate` (
-  `user_id` int(11) NOT NULL,
+CREATE TABLE `UserData` (
+  `user_no` int(11) NOT NULL,
   `user_name` text NOT NULL,
   `user_pwd` text NOT NULL,
-  `date_created` date NOT NULL DEFAULT current_timestamp(),
+  `date_created` date DEFAULT current_timestamp(),
   `doc_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -956,17 +974,87 @@ CREATE TABLE `UserDate` (
 -- Indexes for table `Appointment`
 --
 ALTER TABLE `Appointment`
-  ADD PRIMARY KEY (`Token_No`);
+  ADD PRIMARY KEY (`Pat_ID`);
+
+--
+-- Indexes for table `DoctorDB`
+--
+ALTER TABLE `DoctorDB`
+  ADD PRIMARY KEY (`Doc_ID`);
+
+--
+-- Indexes for table `ExpiredDB`
+--
+ALTER TABLE `ExpiredDB`
+  ADD PRIMARY KEY (`Pat_ID`);
+
+--
+-- Indexes for table `LoginCreds`
+--
+ALTER TABLE `LoginCreds`
+  ADD PRIMARY KEY (`user_no`);
+
+--
+-- Indexes for table `PatientDB`
+--
+ALTER TABLE `PatientDB`
+  ADD PRIMARY KEY (`Pat_ID`);
+
+--
+-- Indexes for table `PatientPres`
+--
+ALTER TABLE `PatientPres`
+  ADD PRIMARY KEY (`Pat_ID`);
+
+--
+-- Indexes for table `UserData`
+--
+ALTER TABLE `UserData`
+  ADD PRIMARY KEY (`user_no`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `Appointment`
+-- AUTO_INCREMENT for table `PatientDB`
+--
+ALTER TABLE `PatientDB`
+  MODIFY `Pat_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `UserData`
+--
+ALTER TABLE `UserData`
+  MODIFY `user_no` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Appointment`
 --
 ALTER TABLE `Appointment`
-  MODIFY `Token_No` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313123124;
+  ADD CONSTRAINT `Appointment_ibfk_1` FOREIGN KEY (`Pat_ID`) REFERENCES `PatientDB` (`Pat_ID`);
+
+--
+-- Constraints for table `DoctorDB`
+--
+ALTER TABLE `DoctorDB`
+  ADD CONSTRAINT `DoctorDB_ibfk_1` FOREIGN KEY (`Doc_ID`) REFERENCES `PatientPres` (`Pat_ID`);
+
+--
+-- Constraints for table `ExpiredDB`
+--
+ALTER TABLE `ExpiredDB`
+  ADD CONSTRAINT `ExpiredDB_ibfk_1` FOREIGN KEY (`Pat_ID`) REFERENCES `PatientPres` (`Pat_ID`);
+
+--
+-- Constraints for table `UserData`
+--
+ALTER TABLE `UserData`
+  ADD CONSTRAINT `UserData_ibfk_1` FOREIGN KEY (`user_no`) REFERENCES `LoginCreds` (`user_no`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
