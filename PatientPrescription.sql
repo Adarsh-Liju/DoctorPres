@@ -64,14 +64,4 @@ END IF
 $$
 DELIMITER ;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `PatientPres`
---
-ALTER TABLE `PatientPres`
-  ADD PRIMARY KEY (`Pat_ID`);
-
 

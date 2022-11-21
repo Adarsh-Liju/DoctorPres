@@ -27,7 +27,7 @@ def update_pres():
     pat_result = cursor.fetchall()
     pat_result = [i['Pat_ID'] for i in pat_result]
     # st.write("## Update Datacription")
-    pat_id = st.selectbox("Patient ID", pat_result)
+    Pat_ID = st.selectbox("Patient ID", pat_result)
     # st.write("## Enter Medicines")
     med1 = st.selectbox("Medicine 1", result)
     med2 = st.selectbox("Medicine 2", result)
@@ -35,6 +35,6 @@ def update_pres():
     update_Data = st.button("Confirm")
     if update_Data:
         query2 = "UPDATE PatientData SET Medicine_1='%s',Medicine_2='%s',Medicine_3='%s' WHERE Pat_ID='%s'" % (
-            med1, med2, med3, pat_id)
+            med1, med2, med3, Pat_ID)
         cursor.execute(query2)
         st.success("Description Updated")

@@ -12,7 +12,8 @@ from query import query_pres
 from view import view_pres
 from view import plot_pres
 from bill import bill_pres
-selection = ["Create", "Read", "Update", "Delete", "Query","Bill"]
+from queries_list import query_list
+selection = ["Create", "Read", "Update", "Delete", "Query","Bill","List of Queries"]
 # config for the database
 connection = pymysql.connect(
     host="localhost",
@@ -32,7 +33,6 @@ st.header("Doctor Prescription System")
 st.sidebar.image("pharmacy.svg")
 st.sidebar.header("Doctor Prescription System")
 st.sidebar.subheader("Operations")
-but1 = st.sidebar.button("Queries List")
 but2 = st.sidebar.button("About")
 option = st.sidebar.selectbox("Operations", selection)
 
@@ -50,5 +50,8 @@ if option == "Query":
     query_pres()
 if option == "Bill":
     bill_pres()
-if but1:
-    os.system("streamlit run queries_list.py")
+if option == "List of Queries":
+    query_list()
+if but2:
+    st.write("### This is a Doctor Prescription System")
+    st.write("### Made with :heart: by Adarsh Liju Abraham")

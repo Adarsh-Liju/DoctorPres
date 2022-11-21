@@ -21,13 +21,13 @@ def view_pres():
         st.subheader("Prescriptions")
         st.table(result)
 
-    pat_id = st.text_input("Enter Patient ID")
-    if pat_id:
+    Pat_ID = st.text_input("Enter Patient ID")
+    if Pat_ID:
         query = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3`,Date(`Date`) FROM `PatientData` WHERE `Pat_ID` = %s;"
-        cursor.execute(query, pat_id)
+        cursor.execute(query, Pat_ID)
         result = cursor.fetchall()
         query2 = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3`,Date(`Date`) FROM `PatientData` WHERE `Pat_ID` = %s;"
-        cursor.execute(query2, pat_id)
+        cursor.execute(query2, Pat_ID)
         result2 = cursor.fetchall()
         st.table(result2)
 
