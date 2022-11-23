@@ -10,6 +10,8 @@ connection = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 connection.autocommit(True)
 cursor = connection.cursor()
+
+
 def query_pres():
     st.write("# SQL Query")
     st.write("## Enter SQL Query")
@@ -24,4 +26,3 @@ def query_pres():
             cursor.execute(query)
             result = cursor.fetchall()
             st.dataframe(result)
-
