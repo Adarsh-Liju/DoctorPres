@@ -1,8 +1,8 @@
 # Importing some global modules
 import pymysql
 import streamlit as st
-import os
-import random
+
+
 
 # Importing the local modules
 from delete import delete_pres

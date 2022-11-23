@@ -14,7 +14,7 @@ cursor = connection.cursor()
 
 
 def view_pres():
-    query = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3`,Date(`Date`) FROM `PatientData`;"
+    query = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3`FROM `PatientData`;"
     cursor.execute(query)
     result = cursor.fetchall()
     with st.expander("View All Prescriptions"):
@@ -23,10 +23,10 @@ def view_pres():
 
     Pat_ID = st.text_input("Enter Patient ID")
     if Pat_ID:
-        query = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3`,Date(`Date`) FROM `PatientData` WHERE `Pat_ID` = %s;"
+        query = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3` FROM `PatientData` WHERE `Pat_ID` = %s;"
         cursor.execute(query, Pat_ID)
         result = cursor.fetchall()
-        query2 = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3`,Date(`Date`) FROM `PatientData` WHERE `Pat_ID` = %s;"
+        query2 = "SELECT `Pat_ID`,`Pat_Name`,`Pat_Age`,`Medicine_1`,`Medicine_2`,`Medicine_3` FROM `PatientData` WHERE `Pat_ID` = %s;"
         cursor.execute(query2, Pat_ID)
         result2 = cursor.fetchall()
         st.table(result2)

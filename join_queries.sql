@@ -22,3 +22,5 @@ SELECT Pat_Name FROM PatientPres UNION ALL SELECT Pat_ID FROM PatientData;
 -- INTERSECT
 SELECT Pat_Name FROM PatientPres INTERSECT SELECT Pat_Name FROM PatientData;
 
+-- EXCEPT
+SELECT Pat_Name FROM PatientPres EXCEPT SELECT Pat_Name FROM PatientData;

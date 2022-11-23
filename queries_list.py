@@ -12,3 +12,6 @@ def query_list():
     st.write("## Trigger Queries")
     f = open("trigger_queries.sql", "r")
     st.code(f.read(), language="sql")
+    f= open("proc_queries.sql","r")
+    st.code(f.read(),language="sql")
+    
